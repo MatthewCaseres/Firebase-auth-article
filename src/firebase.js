@@ -1,27 +1,28 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
-import { functions } from "firebase";
+import "firebase/functions"
 
-const firebaseConfig = {
-  apiKey: "AIzaSyA9WZB5N6ekNxyN3yGaUwjuBilvXItUv38",
-  authDomain: "fir-auth-article.firebaseapp.com",
-  databaseURL: "https://fir-auth-article.firebaseio.com",
-  projectId: "fir-auth-article",
-  storageBucket: "fir-auth-article.appspot.com",
-  messagingSenderId: "774252759419",
-  appId: "1:774252759419:web:e014ddfa3553a4832a15de",
-  measurementId: "G-77Z5WJ0SET"
-};
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+firebase.initializeApp({
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_DATABASE_URL,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId:  process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
+  measurementId: process.env.REACT_APP_MEASUREMENT_ID
+});
+
 
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
+export const functions = firebase.functions();
 
 const provider = new firebase.auth.GoogleAuthProvider();
+provider.addScope('https://www.googleapis.com/auth/drive.file')
 export const signInWithGoogle = () => {
-  auth.signInWithPopup(provider);
+  auth.signInWithPopup(provider)
 };
 
 export const generateUserDocument = async (user, additionalData) => {
